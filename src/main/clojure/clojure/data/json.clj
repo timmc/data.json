@@ -45,6 +45,8 @@
         [(remove #{(codepoint \") (codepoint \\) (codepoint \/)}
                  (range 32 127))
          result]
+        (= test :non-js-unicode)
+        ['(16r2028 16r2029) result]
         :else
         [(int test) result]))
 
@@ -298,6 +300,8 @@
           \newline   (.append sb "\\n")
           \return    (.append sb "\\r")
           \tab       (.append sb "\\t")
+          ;; Unicode characters that Javascript forbids raw in strings
+          :non-js-unicode (.append sb (format "\\u%04x" cp))
           ;; Any other character is Unicode
           (if *escape-unicode*
             (.append sb (format "\\u%04x" cp)) ; Hexadecimal-escaped

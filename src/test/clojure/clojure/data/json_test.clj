@@ -197,7 +197,9 @@
   (is (= "\"\\u1234\\u4567\"" (json/write-str "\u1234\u4567"))))
 
 (deftest print-nonescaped-unicode
-  (is (= "\"\u1234\u4567\"" (json/write-str "\u1234\u4567" :escape-unicode false))))
+  (is (= "\"\u1234\u4567\"" (json/write-str "\u1234\u4567" :escape-unicode false)))
+  (testing "Still escape LINE and PARAGRAPH SEPARATOR to be nice"
+    (is (= "\"\\u2028\\u2029\"" (json/write-str "\u2028\u2029" :escape-unicode false)))))
 
 (deftest print-json-null
   (is (= "null" (json/write-str nil))))
